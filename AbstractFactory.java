@@ -168,3 +168,73 @@ public class AbstractFactory {
         file.displayFileSystem();
     }
 }
+//Target
+interface DPlanguage {
+    int fprintf (File handle, String str);
+}
+class LinuxFileWriteSystem {
+    int uprintf(String str, File handle) {
+        return uprintf(str,handle);
+    }
+}
+class BSDFileWriteSystem {
+    int uprintf(String str, File handle) {
+        return uprintf(str,handle);
+    }
+}
+
+class NTFileWriteSystem{
+    public int printf(byte[] charArrray, File handle) {
+        return printf(charArrray,handle);
+    }
+}
+
+class AdaptorDPtoNT implements DPlanguage{
+    @Override
+    public int fprintf(File handle, String str) {
+
+
+        int fileNT = ntFileWriteSystem.printf(handle, charArrray);
+        return fileNT;
+    }
+
+    public AdaptorDPtoNT(NTFileWriteSystem _ntFileWriteSystem) {
+        ntFileWriteSystem =_ntFileWriteSystem;
+    }
+    private NTFileWriteSystem ntFileWriteSystem;
+
+
+    class AdaptorDPtoLinux implements DPlanguage{
+
+        @Override
+        public int fprintf(File handle, String str) {
+
+
+            int fileLinux = linuxFileWriteSystem.uprintf(str, handle);
+            return fileLinux;
+        }
+
+        public AdaptorDPtoLinux(LinuxFileWriteSystem _linuxFileWriteSystem) {
+            linuxFileWriteSystem =_linuxFileWriteSystem;
+        }
+        private LinuxFileWriteSystem linuxFileWriteSystem;
+    }
+
+    class AdaptorDPtoBSD implements DPlanguage{
+
+        @Override
+        public int fprintf(File handle, String str) {
+
+
+            int fileBSD = bSDFileWriteSystem.uprintf(str, handle);
+            return fileBSD;
+        }
+
+        public AdaptorDPtoBSD(BSDFileWriteSystem _bSDFileWriteSystem) {
+            bSDFileWriteSystem =_bSDFileWriteSystem;
+        }
+        private BSDFileWriteSystem bSDFileWriteSystem;
+    }
+
+
+}
